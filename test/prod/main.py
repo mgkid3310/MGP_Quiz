@@ -64,9 +64,13 @@ def main():
 
 	with open('json/0_POST_quiz_0.json', 'r') as f:
 		quiz_body = json.load(f)
+		res = api_call('POST', '/admin/quiz', quiz_body)
+		api_call('POST', f'/admin/assign?user={student_uid}&quiz={res.text}')
 
-	res = api_call('POST', '/admin/quiz', quiz_body)
-	api_call('POST', f'/admin/assign?user={student_uid}&quiz={res.text}')
+	with open('json/0_POST_quiz_1.json', 'r') as f:
+		quiz_body = json.load(f)
+		res = api_call('POST', '/admin/quiz', quiz_body)
+		api_call('POST', f'/admin/assign?user={student_uid}&quiz={res.text}')
 
 if __name__ == '__main__':
 	main()

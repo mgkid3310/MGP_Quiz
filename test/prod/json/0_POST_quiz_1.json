@@ -1,0 +1,182 @@
+{
+	"title": "Quiz 1",
+	"question_count": 5,
+	"per_page": 2,
+	"shuffle_questions": true,
+	"shuffle_answers": true,
+	"questions": [
+		{
+			"text": "q0: Avocado is the main ingredient in guacamole.",
+			"answers": [
+				{
+					"text": "O",
+					"correct": true
+				},
+				{
+					"text": "X",
+					"correct": false
+				}
+			]
+		},
+		{
+			"text": "q1: What is the capital of Japan?",
+			"answers": [
+				{
+					"text": "Tokyo",
+					"correct": true
+				},
+				{
+					"text": "Seoul",
+					"correct": false
+				},
+				{
+					"text": "Beijing",
+					"correct": false
+				},
+				{
+					"text": "Bangkok",
+					"correct": false
+				}
+			]
+		},
+		{
+			"text": "q2: What is the largest mammal in the world?",
+			"answers": [
+				{
+					"text": "Blue Whale",
+					"correct": true
+				},
+				{
+					"text": "Elephant",
+					"correct": false
+				},
+				{
+					"text": "Giraffe",
+					"correct": false
+				},
+				{
+					"text": "Great White Shark",
+					"correct": false
+				}
+			]
+		},
+		{
+			"text": "q3: Iron is the hardest natural substance on Earth.",
+			"answers": [
+				{
+					"text": "O",
+					"correct": false
+				},
+				{
+					"text": "X",
+					"correct": true
+				}
+			]
+		},
+		{
+			"text": "q4: What is the main ingredient in guacamole?",
+			"answers": [
+				{
+					"text": "Avocado",
+					"correct": true
+				},
+				{
+					"text": "Tomato",
+					"correct": false
+				},
+				{
+					"text": "Onion",
+					"correct": false
+				},
+				{
+					"text": "Lime",
+					"correct": false
+				}
+			]
+		},
+		{
+			"text": "q5: What is the largest planet in our solar system?",
+			"answers": [
+				{
+					"text": "Jupiter",
+					"correct": true
+				},
+				{
+					"text": "Saturn",
+					"correct": false
+				},
+				{
+					"text": "Earth",
+					"correct": false
+				},
+				{
+					"text": "Mars",
+					"correct": false
+				}
+			]
+		},
+		{
+			"text": "q6: What is the smallest prime number?",
+			"answers": [
+				{
+					"text": "1",
+					"correct": false
+				},
+				{
+					"text": "2",
+					"correct": true
+				},
+				{
+					"text": "3",
+					"correct": false
+				},
+				{
+					"text": "5",
+					"correct": false
+				}
+			]
+		},
+		{
+			"text": "q7: What is the capital of France?",
+			"answers": [
+				{
+					"text": "Paris",
+					"correct": true
+				},
+				{
+					"text": "London",
+					"correct": false
+				},
+				{
+					"text": "Berlin",
+					"correct": false
+				},
+				{
+					"text": "Madrid",
+					"correct": false
+				}
+		 ] 
+		},
+		{
+			"text": "q8: What is the largest desert in the world?",
+			"answers": [
+				{
+					"text": "Sahara",
+					"correct": false
+				},
+				{
+					"text": "Antarctic Desert",
+					"correct": true
+				},
+				{
+					"text": "Arabian Desert",
+					"correct": false
+				},
+				{
+					"text": "Gobi Desert",
+					"correct": false
+				}
+			]
+		}
+	]
+}

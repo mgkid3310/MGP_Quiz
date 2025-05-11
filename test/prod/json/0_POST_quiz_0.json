@@ -90,22 +90,14 @@
 			]
 		},
 		{
-			"text": "q4: What is the smallest prime number?",
+			"text": "q4: 1 is the smallest prime number.",
 			"answers": [
 				{
-					"text": "1",
-					"correct": false
-				},
-				{
-					"text": "2",
+					"text": "O",
 					"correct": true
 				},
 				{
-					"text": "3",
-					"correct": false
-				},
-				{
-					"text": "5",
+					"text": "X",
 					"correct": false
 				}
 			]
@@ -216,23 +208,15 @@
 			]
 		},
 		{
-			"text": "q10: What is the largest ocean on Earth?",
+			"text": "q10: The Pacific Ocean is the largest ocean on Earth.",
 			"answers": [
 				{
-					"text": "Atlantic Ocean",
-					"correct": false
-				},
-				{
-					"text": "Indian Ocean",
-					"correct": false
-				},
-				{
-					"text": "Arctic Ocean",
-					"correct": false
-				},
-				{
-					"text": "Pacific Ocean",
+					"text": "O",
 					"correct": true
+				},
+				{
+					"text": "X",
+					"correct": false
 				}
 			]
 		},
