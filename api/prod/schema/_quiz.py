@@ -28,3 +28,15 @@ class Quiz(BaseModel):
 
 class QuizDetail(Quiz):
 	questions: list[Question] = []
+
+class AnswerSelection(BaseModel):
+	question_n: int
+	answer_n: int
+
+class SubmitAnswer(BaseModel):
+	page_n: int
+	answers: list[AnswerSelection] = []
+
+class SubmitResult(BaseModel):
+	quiz_completed: bool
+	page_completed: bool
