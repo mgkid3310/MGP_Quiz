@@ -64,14 +64,13 @@ def decode_jwt(token: str) -> str:
 			headers={'WWW-Authenticate': 'Bearer'}
 		)
 
-async def jwt2user(token: str, admin: bool = False) -> database.models.User:
+async def jwt2user(db: database.DB, token: str, admin: bool = False) -> database.models.User:
 	username = decode_jwt(token)
 
-	async with database.DB() as db:
-		db_user = await db.query_item(
-			database.models.User,
-			username=username
-		)
+	db_user = await db.query_item(
+		database.models.User,
+		username=username
+	)
 
 	if not db_user:
 		raise HTTPException(
@@ -105,7 +104,7 @@ def check_sanity(target: str, path_op: bool = True, str_op: bool = True, comment
 
 	return True
 
-def path(path: str):
+def path(param: str):
 	def _check(param: str) -> str:
 		if param is not None and not check_sanity(param):
 			raise HTTPException(
@@ -114,12 +113,12 @@ def path(path: str):
 			)
 		return param
 
-	def _wrapper(param: str = Path(alias=path)) -> str:
+	def _wrapper(param: str = Path(alias=param)) -> str:
 		return _check(param)
 
 	return _wrapper
 
-def query(query: str, default = None):
+def query(param: str, default: str | None = None):
 	def _check(param: str) -> str:
 		if param is not None and not check_sanity(param):
 			raise HTTPException(
@@ -128,7 +127,10 @@ def query(query: str, default = None):
 			)
 		return param
 
-	def _wrapper(param: str = Query(default, alias=query)) -> str:
+	def _wrapper(param: str = Query(default, alias=param)) -> str:
 		return _check(param)
 
 	return _wrapper
+
+def confirm_code(code: str) -> bool:
+	return code == config.admin_pw

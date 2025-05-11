@@ -50,12 +50,6 @@ class User(Base):
 		back_populates='user'
 	)
 
-	# N-to-N
-	quizzes: Mapped[list[Quiz]] = relationship(
-		secondary='assignment',
-		back_populates='users'
-	)
-
 class Quiz(Base):
 	__tablename__ = 'quiz'
 
@@ -81,19 +75,15 @@ class Quiz(Base):
 		lazy='selectin'
 	)
 
-	# N-to-N
-	users: Mapped[list[User]] = relationship(
-		secondary='assignment',
-		back_populates='quizzes'
-	)
-
 	def q_select(
 		self,
 		page: int = 1,
 		seed: int | None = None,
-		force_sorted: bool = False
+		admin: bool = False
 	) -> list[Question]:
-		if self.question_count > len(self.questions):
+		question_count = self.question_count if not admin else len(self.questions)
+
+		if question_count > len(self.questions):
 			raise ValueError('Question count exceeds available questions')
 
 		if seed is None:
@@ -101,11 +91,11 @@ class Quiz(Base):
 
 		rng = random.Random(seed)
 
-		if self.shuffle_questions and not force_sorted:
-			questions = rng.sample(self.questions, self.question_count)
+		if self.shuffle_questions and not admin:
+			questions = rng.sample(self.questions, question_count)
 		else:
 			questions = sorted(self.questions, key=lambda q: q.uid)
-			questions = questions[:self.question_count]
+			questions = questions[:question_count]
 
 		idx_l, idx_r = self.per_page * (page - 1), self.per_page * page
 		idx_l = max(0, idx_l)
@@ -113,9 +103,12 @@ class Quiz(Base):
 
 		questions = questions[idx_l:idx_r]
 
-		if self.shuffle_answers and not force_sorted:
+		if self.shuffle_answers and not admin:
 			for question in questions:
 				rng.shuffle(question.answers)
+		else:
+			for question in questions:
+				question.answers = sorted(question.answers, key=lambda a: a.uid)
 
 		return questions
 
