@@ -3,7 +3,7 @@ from fastapi.responses import Response, JSONResponse
 
 import auth, database, schema
 
-router = APIRouter(tags=['Quiz'])
+router = APIRouter(tags=['Quiz - Admin'])
 
 @router.post('/admin/promote', status_code=status.HTTP_200_OK)
 async def promote_user(
@@ -59,7 +59,7 @@ async def create_quiz(
 
 	return Response(db_quiz.uid, status_code=status.HTTP_201_CREATED)
 
-@router.get('/admin/quiz', response_model=list[schema.quiz.Quiz])
+@router.get('/admin/quiz', response_model=dict[str, schema.quiz.Quiz])
 async def get_all_quizzes(
 	token: str = Depends(auth.oauth2),
 	db: database.DB = Depends(database.provide_db)
@@ -69,7 +69,7 @@ async def get_all_quizzes(
 	quizzes = await db.query_list(database.models.Quiz)
 
 	return JSONResponse(
-		[quiz.dump() for quiz in quizzes],
+		{quiz.uid: quiz.dump() for quiz in quizzes},
 		status_code=status.HTTP_200_OK
 	)
 
@@ -95,3 +95,26 @@ async def get_quiz_full_detail(
 	]
 
 	return JSONResponse(res, status_code=status.HTTP_200_OK)
+
+@router.post('/admin/assign', response_model=None, status_code=status.HTTP_201_CREATED)
+async def assign_quiz(
+	user_uid: str = Depends(auth.query('user')),
+	quiz_uid: str = Depends(auth.query('quiz')),
+	token: str = Depends(auth.oauth2),
+	db: database.DB = Depends(database.provide_db)
+) -> Response:
+	await auth.jwt2user(db, token, admin=True)
+
+	db_user = await db.query_item(database.models.User, uid=user_uid)
+	db_quiz = await db.query_item(database.models.Quiz, uid=quiz_uid)
+
+	if not db_user or not db_quiz:
+		raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+
+	db_assignment = database.models.Assignment(
+		user_uid=db_user.uid,
+		quiz_uid=db_quiz.uid
+	)
+	db.session.add(db_assignment)
+
+	return Response(status_code=status.HTTP_201_CREATED)

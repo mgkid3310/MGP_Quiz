@@ -196,7 +196,6 @@ class Assignment(Base):
 
 	# attributes
 	rng_seed: Mapped[int] = mapped_column(INTEGER, default=rng_seed)
-	started: Mapped[bool] = mapped_column(BOOLEAN, default=False)
 	completed: Mapped[bool] = mapped_column(BOOLEAN, default=False)
 	score: Mapped[float] = mapped_column(REAL, default=-1.0)
 
