@@ -10,9 +10,9 @@ services:
       - "0:5432"
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "postgres"]
-      interval: 1s
+      interval: 10s
       timeout: 1s
-      retries: 5
+      retries: 3
     volumes:
       - pg_data:/var/lib/postgresql/data
 
@@ -28,8 +28,20 @@ services:
       - POSTGRES_DB=quiz_db
     ports:
       - "8000:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:8000"]
+      interval: 10s
+      timeout: 1s
+      retries: 3
     stdin_open: true
     tty: true
+
+  test:
+    build: test
+    container_name: test
+    depends_on:
+      api:
+        condition: service_healthy
 
 volumes:
   pg_data:

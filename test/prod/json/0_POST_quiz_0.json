@@ -1,0 +1,261 @@
+{
+	"title": "Quiz 0",
+	"question_count": 8,
+	"per_page": 3,
+	"shuffle_questions": true,
+	"shuffle_answers": true,
+	"questions": [
+		{
+			"text": "q0: What is the capital of France?",
+			"answers": [
+				{
+					"text": "Paris",
+					"correct": true
+				},
+				{
+					"text": "London",
+					"correct": false
+				},
+				{
+					"text": "Berlin",
+					"correct": false
+				},
+				{
+					"text": "Madrid",
+					"correct": false
+				}
+			]
+		},
+		{
+			"text": "q1: What is the largest planet in our solar system?",
+			"answers": [
+				{
+					"text": "Earth",
+					"correct": false
+				},
+				{
+					"text": "Jupiter",
+					"correct": true
+				},
+				{
+					"text": "Mars",
+					"correct": false
+				},
+				{
+					"text": "Saturn",
+					"correct": false
+				}
+			]
+		},
+		{
+			"text": "q2: What is the chemical symbol for gold?",
+			"answers": [
+				{
+					"text": "Au",
+					"correct": true
+				},
+				{
+					"text": "Ag",
+					"correct": false
+				},
+				{
+					"text": "Pb",
+					"correct": false
+				},
+				{
+					"text": "Fe",
+					"correct": false
+				}
+			]
+		},
+		{
+			"text": "q3: Who wrote 'Romeo and Juliet'?",
+			"answers": [
+				{
+					"text": "Charles Dickens",
+					"correct": false
+				},
+				{
+					"text": "William Shakespeare",
+					"correct": true
+				},
+				{
+					"text": "Mark Twain",
+					"correct": false
+				},
+				{
+					"text": "Jane Austen",
+					"correct": false
+				}
+			]
+		},
+		{
+			"text": "q4: What is the smallest prime number?",
+			"answers": [
+				{
+					"text": "1",
+					"correct": false
+				},
+				{
+					"text": "2",
+					"correct": true
+				},
+				{
+					"text": "3",
+					"correct": false
+				},
+				{
+					"text": "5",
+					"correct": false
+				}
+			]
+		},
+		{
+			"text": "q5: What is the speed of light?",
+			"answers": [
+				{
+					"text": "300,000 km/s",
+					"correct": true
+				},
+				{
+					"text": "150,000 km/s",
+					"correct": false
+				},
+				{
+					"text": "450,000 km/s",
+					"correct": false
+				},
+				{
+					"text": "600,000 km/s",
+					"correct": false
+				}
+			]
+		},
+		{
+			"text": "q6: Who painted the Mona Lisa?",
+			"answers": [
+				{
+					"text": "Vincent van Gogh",
+					"correct": false
+				},
+				{
+					"text": "Pablo Picasso",
+					"correct": false
+				},
+				{
+					"text": "Leonardo da Vinci",
+					"correct": true
+				},
+				{
+					"text": "Claude Monet",
+					"correct": false
+				}
+			]
+		},
+		{
+			"text": "q7: What is the largest mammal in the world?",
+			"answers": [
+				{
+					"text": "Elephant",
+					"correct": false
+				},
+				{
+					"text": "Blue Whale",
+					"correct": true
+				},
+				{
+					"text": "Giraffe",
+					"correct": false
+				},
+				{
+					"text": "Great White Shark",
+					"correct": false
+				}
+			]
+		},
+		{
+			"text": "q8: What is the hardest natural substance on Earth?",
+			"answers": [
+				{
+					"text": "Gold",
+					"correct": false
+				},
+				{
+					"text": "Diamond",
+					"correct": true
+				},
+				{
+					"text": "Iron",
+					"correct": false
+				},
+				{
+					"text": "Graphite",
+					"correct": false
+				}
+		 ] 
+		},
+		{
+			"text": "q9: What is the main ingredient in guacamole?",
+			"answers": [
+				{
+					"text": "Tomato",
+					"correct": false
+				},
+				{
+					"text": "Avocado",
+					"correct": true
+				},
+				{
+					"text": "Onion",
+					"correct": false
+				},
+				{
+					"text": "Pepper",
+					"correct": false
+				}
+			]
+		},
+		{
+			"text": "q10: What is the largest ocean on Earth?",
+			"answers": [
+				{
+					"text": "Atlantic Ocean",
+					"correct": false
+				},
+				{
+					"text": "Indian Ocean",
+					"correct": false
+				},
+				{
+					"text": "Arctic Ocean",
+					"correct": false
+				},
+				{
+					"text": "Pacific Ocean",
+					"correct": true
+				}
+			]
+		},
+		{
+			"text": "q11: What is the boiling point of water?",
+			"answers": [
+				{
+					"text": "0°C",
+					"correct": false
+				},
+				{
+					"text": "100°C",
+					"correct": true
+				},
+				{
+					"text": "50°C",
+					"correct": false
+				},
+				{
+					"text": "25°C",
+					"correct": false
+				}
+			]
+		}
+	]
+}
