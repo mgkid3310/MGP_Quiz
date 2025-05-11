@@ -1,0 +1,15 @@
+[flake8]
+ignore = E128, E223, E261, E302, E305, E401, E402, E501, E731, W191, W504
+
+# Code   Explanation
+# E128 o continuation line under-indented for visual indent
+# E223 o whitespace before operator
+# E261 o at least two spaces before inline comment
+# E302 o expected 2 blank lines, found 1
+# E305 o expected 2 blank lines after class or function definition, found 1
+# E401 o multiple imports on one line
+# E402 o module level import not at top of file
+# E501 o line too long (> 79 characters)
+# E731 o do not assign a lambda expression, use a def
+# W191 o indentation contains tabs
+# W504 o line break after binary operator

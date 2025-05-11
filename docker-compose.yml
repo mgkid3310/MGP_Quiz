@@ -1,0 +1,35 @@
+services:
+  database:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=quiz_db
+    ports:
+      - "0:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 1s
+      timeout: 1s
+      retries: 5
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  api:
+    build: api
+    container_name: api
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=quiz_db
+    ports:
+      - "8000:8000"
+    stdin_open: true
+    tty: true
+
+volumes:
+  pg_data:

@@ -1,0 +1,13 @@
+# API/WS
+fastapi
+uvicorn
+python-multipart
+
+# Database
+sqlalchemy
+asyncpg
+tsidpy
+
+# Auth
+bcrypt
+python-jose[cryptography]
