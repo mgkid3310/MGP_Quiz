@@ -6,7 +6,7 @@ import auth, database, schema
 
 router = APIRouter(tags=['User'])
 
-@router.post('/user', response_model=str, status_code=status.HTTP_202_ACCEPTED)
+@router.post('/user', response_model=str, status_code=status.HTTP_201_CREATED)
 async def create_user(
 	user: schema.user.UserCreate,
 	db: database.DB = Depends(database.provide_db)
@@ -25,6 +25,9 @@ async def create_user(
 		is_admin=False
 	)
 	db.session.add(db_user)
+
+	await db.session.commit()
+	await db.session.refresh(db_user)
 
 	return Response(db_user.uid, status_code=status.HTTP_201_CREATED)
 
