@@ -77,7 +77,7 @@ class Quiz(Base):
 
 	def q_select(
 		self,
-		page: int = 1,
+		page: int = 0,
 		seed: int | None = None,
 		admin: bool = False
 	) -> list[Question]:
@@ -97,7 +97,7 @@ class Quiz(Base):
 			questions = sorted(self.questions, key=lambda q: q.uid)
 			questions = questions[:question_count]
 
-		idx_l, idx_r = self.per_page * (page - 1), self.per_page * page
+		idx_l, idx_r = self.per_page * page, self.per_page * (page + 1)
 		idx_l = max(0, idx_l)
 		idx_r = min(len(questions), idx_r)
 

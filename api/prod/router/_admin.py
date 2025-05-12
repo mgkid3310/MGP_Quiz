@@ -76,7 +76,7 @@ async def get_all_quizzes(
 @router.get('/admin/quiz/{uid}', response_model=schema.quiz.QuizDetail)
 async def get_quiz_full_detail(
 	uid: str = Depends(auth.path('uid')),
-	page: int = Query(1, ge=1),
+	page: int = Query(0, ge=0),
 	token: str = Depends(auth.oauth2),
 	db: database.DB = Depends(database.provide_db)
 ) -> Response:
