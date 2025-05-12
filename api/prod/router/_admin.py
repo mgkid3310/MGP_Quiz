@@ -19,9 +19,23 @@ async def promote_user(
 
 	return Response(status_code=status.HTTP_200_OK)
 
+@router.get('/admin/quiz', response_model=dict[str, schema.quiz.QuizInfo])
+async def get_all_quizzes(
+	token: str = Depends(auth.oauth2),
+	db: database.DB = Depends(database.provide_db)
+) -> Response:
+	await auth.jwt2user(db, token, admin=True)
+
+	quizzes = await db.query_list(database.models.Quiz)
+
+	return JSONResponse(
+		{quiz.uid: quiz.dump() for quiz in quizzes},
+		status_code=status.HTTP_200_OK
+	)
+
 @router.post('/admin/quiz', response_model=str, status_code=status.HTTP_201_CREATED)
 async def create_quiz(
-	body: schema.quiz.QuizDetail,
+	body: schema.quiz.QuizForm,
 	token: str = Depends(auth.oauth2),
 	db: database.DB = Depends(database.provide_db)
 ) -> Response:
@@ -59,22 +73,23 @@ async def create_quiz(
 
 	return Response(db_quiz.uid, status_code=status.HTTP_201_CREATED)
 
-@router.get('/admin/quiz', response_model=dict[str, schema.quiz.Quiz])
-async def get_all_quizzes(
+@router.get('/admin/quiz/{uid}', response_model=schema.quiz.QuizInfo)
+async def get_quiz_details(
+	uid: str = Depends(auth.path('uid')),
 	token: str = Depends(auth.oauth2),
 	db: database.DB = Depends(database.provide_db)
 ) -> Response:
 	await auth.jwt2user(db, token, admin=True)
 
-	quizzes = await db.query_list(database.models.Quiz)
+	db_quiz = await db.query_item(database.models.Quiz, uid=uid)
 
-	return JSONResponse(
-		{quiz.uid: quiz.dump() for quiz in quizzes},
-		status_code=status.HTTP_200_OK
-	)
+	if not db_quiz:
+		raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
 
-@router.get('/admin/quiz/{uid}', response_model=schema.quiz.QuizDetail)
-async def get_quiz_full_detail(
+	return JSONResponse(db_quiz.dump(), status_code=status.HTTP_200_OK)
+
+@router.get('/admin/quiz/{uid}/questions', response_model=schema.quiz.QuizForm)
+async def get_quiz_full_questions(
 	uid: str = Depends(auth.path('uid')),
 	page: int = Query(0, ge=0),
 	token: str = Depends(auth.oauth2),

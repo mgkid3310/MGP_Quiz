@@ -2,8 +2,8 @@
 	"title": "Quiz 1",
 	"question_count": 5,
 	"per_page": 2,
-	"shuffle_questions": true,
-	"shuffle_answers": true,
+	"shuffle_questions": false,
+	"shuffle_answers": false,
 	"questions": [
 		{
 			"text": "q0: Avocado is the main ingredient in guacamole.",

@@ -91,24 +91,24 @@ class Quiz(Base):
 
 		rng = random.Random(seed)
 
-		if self.shuffle_questions and not admin:
+		if admin:
+			questions = sorted(self.questions, key=lambda q: q.uid)
+		elif self.shuffle_questions:
 			questions = rng.sample(self.questions, question_count)
 		else:
-			questions = sorted(self.questions, key=lambda q: q.uid)
-			questions = questions[:question_count]
+			questions = rng.sample(self.questions, question_count)
+			questions = sorted(questions, key=lambda q: q.uid)
 
 		idx_l, idx_r = self.per_page * page, self.per_page * (page + 1)
 		idx_l = max(0, idx_l)
 		idx_r = min(len(questions), idx_r)
 
 		questions = questions[idx_l:idx_r]
-
-		if self.shuffle_answers and not admin:
-			for question in questions:
-				rng.shuffle(question.answers)
-		else:
-			for question in questions:
+		for question in questions:
+			if admin or not question.answers:
 				question.answers = sorted(question.answers, key=lambda a: a.uid)
+			else:
+				rng.shuffle(question.answers)
 
 		return questions
 

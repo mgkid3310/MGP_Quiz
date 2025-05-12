@@ -72,5 +72,43 @@ def main():
 		res = api_call('POST', '/admin/quiz', quiz_body)
 		api_call('POST', f'/admin/assign?user={student_uid}&quiz={res.text}')
 
+	login(student_user, student_pass)
+	api_call('POST', f'/student/quiz/{res.text}/submit', {
+		"page_n": 0,
+		"answers": [
+			{
+				"question_n": 0,
+				"answer_n": 0
+			},
+			{
+				"question_n": 1,
+				"answer_n": 0
+			}
+		]
+	})
+	api_call('POST', f'/student/quiz/{res.text}/submit', {
+		"page_n": 1,
+		"answers": [
+			{
+				"question_n": 0,
+				"answer_n": 0
+			},
+			{
+				"question_n": 1,
+				"answer_n": 0
+			}
+		]
+	})
+	api_call('POST', f'/student/quiz/{res.text}/submit', {
+		"page_n": 2,
+		"answers": [
+			{
+				"question_n": 0,
+				"answer_n": 0
+			}
+		]
+	})
+	api_call('POST', f'/student/quiz/{res.text}/grade')
+
 if __name__ == '__main__':
 	main()
