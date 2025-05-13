@@ -19,17 +19,23 @@ async def promote_user(
 
 	return Response(status_code=status.HTTP_200_OK)
 
-@router.get('/admin/quiz', response_model=dict[str, schema.quiz.QuizInfo])
+@router.get('/admin/quiz', response_model=dict[str, schema.quiz.QuizViewAdmin])
 async def get_all_quizzes(
+	page: int = Query(0, ge=0),
+	limit: int = Query(10, ge=1),
 	token: str = Depends(auth.oauth2),
 	db: database.DB = Depends(database.provide_db)
 ) -> Response:
 	await auth.jwt2user(db, token, admin=True)
 
-	quizzes = await db.query_list(database.models.Quiz)
+	quizzes = await db.query_list(
+		database.models.Quiz,
+		page=page,
+		limit=limit,
+	)
 
 	return JSONResponse(
-		{quiz.uid: quiz.dump() for quiz in quizzes},
+		[quiz.dump() for quiz in quizzes],
 		status_code=status.HTTP_200_OK
 	)
 
@@ -73,7 +79,7 @@ async def create_quiz(
 
 	return Response(db_quiz.uid, status_code=status.HTTP_201_CREATED)
 
-@router.get('/admin/quiz/{uid}', response_model=schema.quiz.QuizInfo)
+@router.get('/admin/quiz/{uid}', response_model=schema.quiz.QuizViewAdmin)
 async def get_quiz_details(
 	uid: str = Depends(auth.path('uid')),
 	token: str = Depends(auth.oauth2),

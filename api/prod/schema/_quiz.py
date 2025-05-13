@@ -1,10 +1,13 @@
 from pydantic import BaseModel, field_validator
 
+class UID(BaseModel):
+	uid: str
+
 class Answer(BaseModel):
 	text: str
 	correct: bool = False
 
-class Question(BaseModel):
+class QuestionView(BaseModel):
 	text: str
 	answers: list[Answer] = []
 
@@ -18,24 +21,27 @@ class Question(BaseModel):
 
 		return answers
 
-class QuestionTest(Question):
+class QuestionTest(QuestionView):
 	selected: int = -1					# -1 for no selection, 0-based index
 
-class QuizInfo(BaseModel):
+class QuizBase(BaseModel):
 	title: str
 	question_count: int = 0
 	per_page: int = 10
 	shuffle_questions: bool = False
 	shuffle_answers: bool = False
 
-class QuizForm(QuizInfo):
-	questions: list[Question]
+class QuizForm(QuizBase):
+	questions: list[QuestionView]
 
-class QuizResult(QuizInfo):
+class QuizViewAdmin(UID, QuizBase):
+	pass
+
+class QuizViewStudent(QuizViewAdmin):
 	completed: bool = False
 	score: int = -1
 
-class QuizTest(QuizInfo):
+class QuizViewTest(UID, QuizBase):
 	questions: list[QuestionTest]
 
 class AnswerSelection(BaseModel):

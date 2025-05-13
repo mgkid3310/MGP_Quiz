@@ -5,8 +5,10 @@ import auth, database, schema
 
 router = APIRouter(tags=['Quiz - Student'])
 
-@router.get('/student/quiz', response_model=dict[str, schema.quiz.QuizResult])
+@router.get('/student/quiz', response_model=dict[str, schema.quiz.QuizViewStudent])
 async def get_assigned_quizzes(
+	page: int = Query(0, ge=0),
+	limit: int = Query(10, ge=1),
 	token: str = Depends(auth.oauth2),
 	db: database.DB = Depends(database.provide_db)
 ) -> Response:
@@ -14,15 +16,17 @@ async def get_assigned_quizzes(
 
 	await db.session.run_sync(lambda s: s.refresh(db_user, ['assignments']))
 
-	res = {}
-	for assignment in db_user.assignments:
-		res[assignment.quiz.uid] = assignment.quiz.dump()
-		res[assignment.quiz.uid]['completed'] = assignment.completed
-		res[assignment.quiz.uid]['score'] = assignment.score
+	assignments = db_user.assignments[page * limit:(page + 1) * limit]
+
+	res = []
+	for assignment in assignments:
+		res.append(assignment.quiz.dump())
+		res[-1]['completed'] = assignment.completed
+		res[-1]['score'] = assignment.score
 
 	return JSONResponse(res, status_code=status.HTTP_200_OK)
 
-@router.get('/student/quiz/{uid}', response_model=schema.quiz.QuizResult)
+@router.get('/student/quiz/{uid}', response_model=schema.quiz.QuizViewStudent)
 async def get_quiz_details(
 	uid: str = Depends(auth.path('uid')),
 	token: str = Depends(auth.oauth2),
@@ -45,7 +49,7 @@ async def get_quiz_details(
 
 	return JSONResponse(res, status_code=status.HTTP_200_OK)
 
-@router.get('/student/quiz/{uid}/questions', response_model=schema.quiz.QuizTest)
+@router.get('/student/quiz/{uid}/questions', response_model=schema.quiz.QuizViewTest)
 async def get_quiz_questions(
 	uid: str = Depends(auth.path('uid')),
 	page: int = Query(0, ge=0),

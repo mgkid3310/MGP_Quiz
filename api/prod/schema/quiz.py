@@ -1,23 +1,15 @@
 from ._quiz import (
-	Answer,
-	Question,
-	QuestionTest,
-	QuizInfo,
 	QuizForm,
-	QuizResult,
-	QuizTest,
-	AnswerSelection,
+	QuizViewAdmin,
+	QuizViewStudent,
+	QuizViewTest,
 	SubmitAnswer
 )
 
 __all__ = [
-	'Answer',
-	'Question',
-	'QuestionTest',
-	'QuizInfo',
 	'QuizForm',
-	'QuizResult',
-	'QuizTest',
-	'AnswerSelection',
+	'QuizViewAdmin',
+	'QuizViewStudent',
+	'QuizViewTest',
 	'SubmitAnswer'
 ]

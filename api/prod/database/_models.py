@@ -109,6 +109,7 @@ class Quiz(Base):
 
 	def dump(self) -> dict:
 		return {
+			'uid': self.uid,
 			'title': self.title,
 			'question_count': self.question_count,
 			'per_page': self.per_page,
@@ -147,14 +148,14 @@ class Question(Base):
 		seed: int | None = None,
 		admin: bool = False
 	) -> None:
-		if seed is None:
-			seed = rng_seed()
-
-		rng = random.Random(seed)
 
 		if admin or not self.quiz.shuffle_answers:
 			self.answers = sorted(self.answers, key=lambda a: a.uid)
 		else:
+			if seed is None:
+				seed = rng_seed()
+
+			rng = random.Random(seed)
 			rng.shuffle(self.answers)
 
 	def dump(self) -> dict:
