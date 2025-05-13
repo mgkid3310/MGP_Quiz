@@ -1,6 +1,6 @@
 from datetime import datetime, timezone, timedelta
 from hashlib import sha256
-from typing import TypeVar, cast
+from typing import TypeVar, cast, Any
 
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import DeclarativeBase, InstrumentedAttribute, selectinload
@@ -49,11 +49,18 @@ class Cache():
 	def expired(self) -> bool:
 		return datetime.now(timezone.utc) > self.created + self.TTL
 
+	async def merged(self, session: AsyncSession) -> Any:
+		if isinstance(self.data, list):
+			return [await session.merge(item) for item in self.data]
+		else:
+			return await session.merge(self.data)
+
 class DB():
 	config: dict = {
 		'TTL': timedelta(minutes=15)
 	}
-	cache: dict[str, Cache] = {}
+	item_cache: dict[str, Cache] = {}
+	list_cache: dict[str, Cache] = {}
 
 	def __init__(self, new_engine: bool = False):
 		self._dispose_after_use = new_engine
@@ -75,30 +82,6 @@ class DB():
 		if self._dispose_after_use:
 			await self.engine.dispose()
 
-	async def _execute(self, stmt, cache: bool = False):
-		"""
-		Executes a statement and returns the result.
-
-		:param stmt: The statement to execute.
-		:param cache: Whether to cache the result.
-		:return: The result of the statement.
-		"""
-
-		stmt_hash = sha256(str(stmt).encode()).hexdigest()
-		if cache and stmt_hash in self.cache:
-			if not self.cache[stmt_hash].expired():
-				return self.cache[stmt_hash].data
-			else:
-				del self.cache[stmt_hash]
-
-		result = await self.session.execute(stmt)
-		result = result.scalars()
-
-		if cache:
-			self.cache[stmt_hash] = Cache(result, self.config['TTL'])
-
-		return result
-
 	async def query_item(
 		self,
 		model: type[MODEL],
@@ -117,8 +100,18 @@ class DB():
 
 		stmt = _build_stmt(model, joined, **kwargs)
 
-		result = await self._execute(stmt, cache=cache)
-		result = result.first()
+		stmt_hash = sha256(str(stmt).encode()).hexdigest()
+		if cache and stmt_hash in self.item_cache:
+			if not self.item_cache[stmt_hash].expired():
+				return await self.item_cache[stmt_hash].merged(self.session)
+			else:
+				del self.item_cache[stmt_hash]
+
+		result = await self.session.execute(stmt)
+		result = result.scalars().first()
+
+		if cache and result:
+			self.item_cache[stmt_hash] = Cache(result, self.config['TTL'])
 
 		return result
 
@@ -147,8 +140,18 @@ class DB():
 		if limit > 0:
 			stmt = stmt.limit(limit).offset(offset)
 
-		result = await self._execute(stmt, cache=cache)
-		result = result.all()
+		stmt_hash = sha256(str(stmt).encode()).hexdigest()
+		if cache and stmt_hash in self.list_cache:
+			if not self.list_cache[stmt_hash].expired():
+				return await self.list_cache[stmt_hash].merged(self.session)
+			else:
+				del self.list_cache[stmt_hash]
+
+		result = await self.session.execute(stmt)
+		result = result.scalars().all()
+
+		if cache and result:
+			self.list_cache[stmt_hash] = Cache(result, self.config['TTL'])
 
 		return cast(list[MODEL], result)
 

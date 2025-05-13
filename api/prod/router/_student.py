@@ -100,6 +100,7 @@ async def submit_answer(
 
 	db_assignment = await db.query_item(
 		database.models.Assignment,
+		cache=True,
 		user_uid=db_user.uid,
 		quiz_uid=uid
 	)
