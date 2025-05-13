@@ -135,6 +135,7 @@ async def submit_answer(
 				detail='Answer number out of range'
 			)
 
+		question.shuffle_ans(db_assignment.rng_seed)
 		ans_uid = question.answers[ans.answer_n].uid
 		if question.uid in sub_dict.keys():
 			sub_dict[question.uid].answer_uid = ans_uid

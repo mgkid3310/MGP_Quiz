@@ -100,15 +100,10 @@ class Quiz(Base):
 			questions = sorted(questions, key=lambda q: q.uid)
 
 		idx_l, idx_r = self.per_page * page, self.per_page * (page + 1)
-		idx_l = max(0, idx_l)
-		idx_r = min(len(questions), idx_r)
 
 		questions = questions[idx_l:idx_r]
-		for question in questions:
-			if admin or not question.answers:
-				question.answers = sorted(question.answers, key=lambda a: a.uid)
-			else:
-				rng.shuffle(question.answers)
+		for q in questions:
+			q.shuffle_ans(seed, admin)
 
 		return questions
 
@@ -146,6 +141,21 @@ class Question(Base):
 		back_populates='question',
 		lazy='selectin'
 	)
+
+	def shuffle_ans(
+		self,
+		seed: int | None = None,
+		admin: bool = False
+	) -> None:
+		if seed is None:
+			seed = rng_seed()
+
+		rng = random.Random(seed)
+
+		if admin or not self.quiz.shuffle_answers:
+			self.answers = sorted(self.answers, key=lambda a: a.uid)
+		else:
+			rng.shuffle(self.answers)
 
 	def dump(self) -> dict:
 		answers = sorted(self.answers, key=lambda a: a.uid)
