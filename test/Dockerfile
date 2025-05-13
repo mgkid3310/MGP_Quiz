@@ -1,8 +1,11 @@
 FROM python:3.12-slim
 
+RUN pip install poetry
+
 COPY prod /app
 WORKDIR /app
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN poetry config virtualenvs.create false && \
+	poetry install --no-interaction --no-ansi --no-root
 
-CMD ["python", "main.py"]
+CMD ["poetry", "run", "python", "main.py"]
