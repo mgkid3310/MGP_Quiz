@@ -5,7 +5,7 @@ BASE_URL = 'http://api:8000'
 
 admin_user = 'admin'
 admin_pass = 'admin'
-admin_code = 'admin_password'
+admin_code = 'admin_pw'
 student_user = 'student'
 student_pass = 'student'
 jwt_headers = {}
