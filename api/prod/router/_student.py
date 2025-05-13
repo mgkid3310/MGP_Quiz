@@ -110,7 +110,7 @@ async def submit_answer(
 		)
 
 	curr_q = db_assignment.quiz.q_select(
-		page=body.page_n,
+		page=body.page_idx,
 		seed=db_assignment.rng_seed
 	)
 
@@ -122,21 +122,21 @@ async def submit_answer(
 	sub_dict = {a.question_uid: a for a in ans_subs}
 
 	for ans in body.answers:
-		if ans.question_n >= len(curr_q):
+		if ans.question_idx >= len(curr_q):
 			raise HTTPException(
 				status_code=status.HTTP_400_BAD_REQUEST,
 				detail='Question number out of range'
 			)
 
-		question = curr_q[ans.question_n]
-		if ans.answer_n >= len(question.answers):
+		question = curr_q[ans.question_idx]
+		if ans.answer_idx >= len(question.answers):
 			raise HTTPException(
 				status_code=status.HTTP_400_BAD_REQUEST,
 				detail='Answer number out of range'
 			)
 
 		question.shuffle_ans(db_assignment.rng_seed)
-		ans_uid = question.answers[ans.answer_n].uid
+		ans_uid = question.answers[ans.answer_idx].uid
 		if question.uid in sub_dict.keys():
 			sub_dict[question.uid].answer_uid = ans_uid
 		else:

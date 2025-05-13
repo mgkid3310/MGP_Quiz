@@ -74,37 +74,37 @@ def main():
 
 	login(student_user, student_pass)
 	api_call('POST', f'/student/quiz/{res.text}/submit', {
-		"page_n": 0,
+		"page_idx": 0,
 		"answers": [
 			{
-				"question_n": 0,
-				"answer_n": 0
+				"question_idx": 0,
+				"answer_idx": 0
 			},
 			{
-				"question_n": 1,
-				"answer_n": 0
+				"question_idx": 1,
+				"answer_idx": 0
 			}
 		]
 	})
 	api_call('POST', f'/student/quiz/{res.text}/submit', {
-		"page_n": 1,
+		"page_idx": 1,
 		"answers": [
 			{
-				"question_n": 0,
-				"answer_n": 0
+				"question_idx": 0,
+				"answer_idx": 0
 			},
 			{
-				"question_n": 1,
-				"answer_n": 0
+				"question_idx": 1,
+				"answer_idx": 0
 			}
 		]
 	})
 	api_call('POST', f'/student/quiz/{res.text}/submit', {
-		"page_n": 2,
+		"page_idx": 2,
 		"answers": [
 			{
-				"question_n": 0,
-				"answer_n": 0
+				"question_idx": 0,
+				"answer_idx": 0
 			}
 		]
 	})

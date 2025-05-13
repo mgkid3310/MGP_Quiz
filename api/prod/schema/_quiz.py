@@ -39,22 +39,22 @@ class QuizTest(QuizInfo):
 	questions: list[QuestionTest]
 
 class AnswerSelection(BaseModel):
-	question_n: int
-	answer_n: int
+	question_idx: int
+	answer_idx: int
 
-	@field_validator('question_n', 'answer_n')
+	@field_validator('question_idx', 'answer_idx')
 	def check_positive(cls, value: int) -> int:
 		if value < 0:
 			raise ValueError('Value must be positive')
 
 		return value
 class SubmitAnswer(BaseModel):
-	page_n: int
+	page_idx: int
 	answers: list[AnswerSelection]
 
 	@field_validator('answers')
 	def check_answers(cls, answers: list[AnswerSelection]) -> list[AnswerSelection]:
-		if len(answers) != len(set(ans.question_n for ans in answers)):
+		if len(answers) != len(set(ans.question_idx for ans in answers)):
 			raise ValueError('Duplicate question numbers are not allowed')
 
 		return answers
