@@ -2,7 +2,7 @@ PYTHON := python
 COMPOSE := docker-compose
 DOCKER := docker
 
-.SILENT: help install-dev lint type	 build start stop run clean
+.SILENT: help install-dev lint type build start stop clean
 
 .PHONY: help
 help:
@@ -14,6 +14,7 @@ help:
 	echo   make build           Build Docker environment using docker-compose
 	echo   make start           Start the Docker environment
 	echo   make stop            Stop the Docker environment
+	echo   make docs            View documentation
 	echo   make clean           Clean the project based on .dockerignore
 
 .PHONY: install-dev
